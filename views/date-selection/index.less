@@ -1,0 +1,46 @@
+@import './base.less';
+@import './flex.less';
+@import './toast.less';
+@import './input-popup.less';
+@import './confirm-popup.less';
+@import './drop-down-select-popup.less';
+
+@black1: #303133;
+@black2: #606266;
+@black3: #909399;
+@black4: #C0C4CC;
+
+body {
+    width           : 100%;
+    height          : 100%;
+    padding         : 0px;
+    margin          : 0px;
+    font-size       : 14px;
+    color           : @black2;
+    background-color: #f1f1f1;
+}
+
+.close {
+    padding: 15px;
+
+    .close-container {
+        height    : 45px;
+        border    : 1px solid #ddd;
+        background: #fff;
+    }
+}
+
+.date {
+    padding-bottom: 15px;
+
+    .date-item {
+        height       : 45px;
+        padding      : 0px 15px;
+        background   : #fff;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .item-icon {
+        padding-left: 15px;
+    }
+}

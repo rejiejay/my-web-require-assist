@@ -1,0 +1,101 @@
+/*!
+ * car-license-areaer v1.0.0
+ * Authors rejiejay
+ * Licensed MIT
+ */
+@black1: #303133;
+@black2: #606266;
+@black3: #909399;
+@black4: #C0C4CC;
+
+.rejiejay-confirm-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.86);
+
+    display: -webkit-box;
+    /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box;
+    /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;
+    /* 混合版本语法: IE 10 */
+    display: -webkit-flex;
+    /* 新版本语法： Chrome 21+ */
+    display: flex;
+    /* 新版本语法： Opera 12.1, Firefox 22+ */
+
+    /*垂直居中*/
+    -webkit-box-align: center;
+    /*老版本语法*/
+    -moz-box-align: center;
+    /*混合版本语法*/
+    -ms-flex-align: center;
+    /*新版本语法*/
+    -webkit-align-items: center;
+    align-items: center;
+
+    /*水平居中*/
+    -webkit-box-pack: center;
+    /*老版本语法*/
+    -moz-box-pack: center;
+    /*混合版本语法*/
+    -ms-flex-pack: center;
+    /*新版本语法*/
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    #ejiejay-confirm-popup-mask {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    .confirm-container {
+        position: relative;
+        background: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .confirm-title {
+        padding: 15px 25px;
+        font-size: 16px;
+        color: @black1;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .confirm-operating {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        >div {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+        }
+
+        #rejiejay-confirm-popup-operate-yes {
+            border-right: 1px solid #ddd;
+        }
+    }
+}

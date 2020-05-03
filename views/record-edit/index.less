@@ -1,0 +1,89 @@
+@import './base.less';
+@import './flex.less';
+@import './toast.less';
+@import './input-popup.less';
+@import './confirm-popup.less';
+@import './drop-down-select-popup.less';
+@import './tag-selection.less';
+
+@black1: #303133;
+@black2: #606266;
+@black3: #909399;
+@black4: #C0C4CC;
+
+body {
+    width           : 100%;
+    height          : 100%;
+    padding         : 0px;
+    margin          : 0px;
+    font-size       : 14px;
+    color           : @black2;
+    background-color: #f1f1f1;
+}
+
+.edit {
+    padding: 25px 15px 275px 15px;
+
+    .edit-title {
+        color         : @black1;
+        padding-bottom: 10px;
+    }
+
+    .edit-required {
+        color: #F23F40;
+    }
+
+    .edit-input {
+        padding-bottom: 15px;
+
+        input {
+            border    : 1px solid #ddd;
+            height    : 45px;
+            background: #fff;
+        }
+
+        textarea {
+            border    : 1px solid #ddd;
+            background: #fff;
+        }
+
+        .picka-clear {
+            height          : 47px;
+            font-size       : 12px;
+            background-color: #dadada;
+            padding         : 0px 15px;
+        }
+    }
+
+    .select-tag {
+        padding-bottom: 15px;
+
+
+        .select-tag-container {
+            height          : 45px;
+            background-color: #fff;
+            border    : 1px solid #ddd;
+        }
+    }
+}
+
+.operation {
+    position  : fixed;
+    width     : 100%;
+    height    : 51px;
+    left      : 0px;
+    bottom    : 0px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+
+    .operation-container {
+        width : 100%;
+        height: 50px;
+    }
+
+    .vertical-line {
+        height    : 50px;
+        width     : 1px;
+        background: #ddd;
+    }
+}

@@ -1,0 +1,66 @@
+@black1: #303133;
+@black2: #606266;
+@black3: #909399;
+@black4: #C0C4CC;
+
+.rejiejay-pagination {
+    padding: 0px 15px;
+
+    .list-pagination-item {
+        height: 30px;
+        min-width: 30px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Chrome/Safari/Opera */
+        -khtml-user-select: none;
+        /* Konqueror */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
+        /* Non-prefixed version, currently not supported by any browser */
+    }
+
+    // 省略号
+    .list-pagination-point {
+        margin-right: 10px;
+    }
+
+    .list-pagination-input {
+        .pagination-input-container {
+            margin-right: 15px;
+            width: 45px;
+            line-height: 30px;
+            border-radius: 2px;
+            border: 1px solid #ddd;
+
+            input {
+                text-align: center;
+            }
+        }
+
+        .pagination-input-submit {
+            padding: 0px 10px;
+            line-height: 30px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+    }
+
+    .pagination-item-selected,
+    .list-pagination-item:hover,
+    .pagination-input-submit:hover {
+        border: 1px solid #1890ff;
+        color: #1890ff;
+    }
+
+}
