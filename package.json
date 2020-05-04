@@ -1,8 +1,8 @@
 {
-    "name": "my-web-task-assist-react",
-    "version": "2.177.0",
+    "name": "my-web-require-assist",
+    "version": "1.2.0",
     "author": "rejiejay",
-    "description": "my web task assist react",
+    "description": "my web require assist",
     "main": "index.js",
     "scripts": {
         "start": "SET NODE_ENV=development && node index.js",

@@ -17,16 +17,3 @@ npm run build
 
 localStorage['rejiejay-task-assist-token']  
 localStorage['rejiejay-task-assist-password']  
-
-localStorage['task-target-process']  
-localStorage['task-conclusion-list-sort-type']  
-localStorage['task-todo-edit-id']  
-localStorage['task-todo-statistics-all']  
-localStorage[`task-todo-statistics-${targetId}`]  
-localStorage['task-todo-template']  
-localStorage['task-why-edit-id']  
-localStorage['task-plan-program-edit-id']  
-localStorage['task-plan-program-show-id']  
-localStorage['task-plan-according-id']  
-localStorage['task-conclusion-list-statistics']  
-localStorage['task-conclusion-edit-id']  
