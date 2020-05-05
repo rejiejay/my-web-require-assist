@@ -135,12 +135,12 @@ class MainComponent extends React.Component {
             <div className="operation">
                 <div className="operation-container flex-start">
                     <div className="operation-item">
-                        <div className="operation-item-container flex-center"
+                        <div className="operation-item-container flex-center noselect"
                             onClick={this.expandAllHandle.bind(this)}
                         >展开所有</div>
                     </div>
                     <div className="operation-item">
-                        <div className="operation-item-container flex-center"
+                        <div className="operation-item-container flex-center noselect"
                             onClick={this.expandRandomHandle.bind(this)}
                         >随机查看</div>
                     </div>

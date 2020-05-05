@@ -20,3 +20,62 @@ body {
     color           : @black2;
     background-color: #f1f1f1;
 }
+
+.mind {
+    padding: 25px;
+
+    .mind-container {
+        width: 960px;
+
+        .title-input {
+            padding         : 15px;
+            height          : 32px;
+            background-color: #fff;
+
+            input {
+                font-size: 18px;
+            }
+        }
+
+        .edit-separation {
+            height: 15px;
+        }
+
+        .content-input {
+            background-color: #fff;
+
+            textarea {
+                height: 120px;
+                color : @black2;
+            }
+        }
+    }
+
+    .mind-operating {
+        padding-left: 25px;
+
+        .mind-operating-container {
+            width: 320px;
+        }
+
+        .mind-operating-item {
+            padding-bottom: 15px;
+
+            .operating-item-container {
+                padding         : 15px;
+                background-color: #ffffff;
+                cursor          : pointer;
+            }
+
+            .operating-item-container:hover {
+                background-color: #1890ff;
+                color           : #fff;
+            }
+
+            .operating-item-container:active {
+                background-color: #f5222d;
+            }
+        }
+    }
+
+}
