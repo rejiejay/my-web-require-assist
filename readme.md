@@ -17,3 +17,5 @@ npm run build
 
 localStorage['rejiejay-require-assist-token']  
 localStorage['rejiejay-require-assist-password']  
+
+sessionStorage['require-assist-detail-id']  

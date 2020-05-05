@@ -63,7 +63,9 @@ class MainComponent extends React.Component {
 
         const selectNodeHandle = node => {
             const data = self.mindInstan.get_node(node)
-            console.log('data', data.id)
+
+            window.sessionStorage.setItem('require-assist-detail-id', data.id)
+            window.location.href = './detail/index.html'
         }
 
         this.mindInstan.add_event_listener((type, { evt, node }) => {
