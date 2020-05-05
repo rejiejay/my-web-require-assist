@@ -16,15 +16,15 @@ const showLogInput = (resolve, reject) => {
         }).then(res => {
             const token = res.data
 
-            localStorage.setItem('rejiejay-task-assist-token', token)
-            localStorage.setItem('rejiejay-task-assist-password', password)
+            localStorage.setItem('rejiejay-require-assist-token', token)
+            localStorage.setItem('rejiejay-require-assist-password', password)
             inputPopUpDestroy()
             toast.show('登录成功！')
             resolve()
         }, error => reject(error))
     }
 
-    const defaultValue = localStorage.getItem('rejiejay-task-assist-password')
+    const defaultValue = localStorage.getItem('rejiejay-require-assist-password')
 
     inputPopUp({
         title: '请输入登录密码?',
@@ -35,12 +35,12 @@ const showLogInput = (resolve, reject) => {
 }
 
 const init = () => new Promise((resolve, reject) => {
-    let token = localStorage.getItem('rejiejay-task-assist-token')
-    let password = localStorage.getItem('rejiejay-task-assist-password')
+    let token = localStorage.getItem('rejiejay-require-assist-token')
+    let password = localStorage.getItem('rejiejay-require-assist-password')
 
     if (!token || !password) return showLogInput(resolve, reject)
 
-    await fetch.get({
+    fetch.get({
         url: 'user/verify',
         query: {
             verify: token
@@ -48,7 +48,7 @@ const init = () => new Promise((resolve, reject) => {
         hiddenError: true
     }).then(
         ({ data }) => {
-            localStorage.setItem('rejiejay-task-assist-token', data)
+            localStorage.setItem('rejiejay-require-assist-token', data)
             resolve()
         },
         error => showLogInput(resolve, reject)

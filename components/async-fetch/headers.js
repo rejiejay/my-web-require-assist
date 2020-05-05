@@ -1,5 +1,5 @@
 const initHeaders = () => {
-    const token = localStorage.getItem('rejiejay-task-assist-token')
+    const token = localStorage.getItem('rejiejay-require-assist-token')
     const headers = {
         "Content-Type": 'application/json; charset=utf-8'
     }

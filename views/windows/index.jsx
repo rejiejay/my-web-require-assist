@@ -1,3 +1,6 @@
+import fetch from './../../components/async-fetch/fetch.js';
+import login from './../../components/login.js';
+
 import CONST from './const.js';
 
 class MainComponent extends React.Component {
@@ -9,16 +12,45 @@ class MainComponent extends React.Component {
     }
 
     async componentDidMount() {
+        await login()
         this.initMind()
     }
 
-    initMind() {
-        const mind = new jsMind({
+    async initMind() {
+        let mind = {
+            meta: { name: "jsMind", author: "hizzgdev@163.com", version: "0.4.6" },
+            format: "node_array",
+            data: CONST.MIND.DEFAULTS
+        }
+
+        await fetch.get({ url: 'mind/get/all', query: {} }).then(
+            ({ data }) => {
+                const root = data.find(element => element.id === 1);
+
+                mind.data = [
+                    {
+                        id: 1,
+                        isroot: true,
+                        topic: root.title
+                    },
+                    ...data.filter(element => element.id !== 1).map(item => ({
+                        id: +item.id,
+                        parentid: +item.parentid,
+                        topic: item.title,
+                        direction: 'right',
+                        expanded: true
+                    }))
+                ]
+            },
+            error => { }
+        )
+        const mindInstan = new jsMind({
             container: 'jsmind_container',
             editable: true,
-            theme: 'orange'
-        });
-        mind.show();
+            theme: CONST.THEME.PRIMARY
+        })
+
+        mindInstan.show(mind);
     }
 
     render() {

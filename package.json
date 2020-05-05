@@ -21,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/rejiejay/myweb-task-assist.git"
+        "url": "git+https://github.com/rejiejay/myweb-require-assist.git"
     },
     "keywords": [
         "react"
@@ -31,9 +31,9 @@
     },
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/rejiejay/myweb-task-assist/issues"
+        "url": "https://github.com/rejiejay/myweb-require-assist/issues"
     },
-    "homepage": "https://github.com/rejiejay/myweb-task-assist#readme",
+    "homepage": "https://github.com/rejiejay/myweb-require-assist#readme",
     "type": "module",
     "devDependencies": {
         "@babel/cli": "^7.8.3",

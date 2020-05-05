@@ -35,7 +35,7 @@ const unAuthHandle = ({
     /** 服务端不存在token */
     if (result === CONST.RESULT_CODE.ACCESS_DENIED_SERVER.value) {
         console.log('服务端不存在token')
-        const password = localStorage.getItem('rejiejay-task-assist-password')
+        const password = localStorage.getItem('rejiejay-require-assist-password')
         if (password && password !== 'null') {
             return reAuthPassword()
         } else {
@@ -51,7 +51,7 @@ const unAuthHandle = ({
 
     /** token校验失败 */
     if (result === CONST.RESULT_CODE.ACCESS_VERIFY_FAILED.value) {
-        const token = localStorage.getItem('rejiejay-task-assist-token')
+        const token = localStorage.getItem('rejiejay-require-assist-token')
         console.log(`token(${token})校验失败`)
         if (token && token !== 'null') {
             return reAuthPassword()
@@ -76,7 +76,7 @@ const unAuthHandle = ({
 /**
  * 含义: 输入密码重新授权
  */
-const reEnterPassword = async () => {
+const reEnterPassword = async() => {
     console.log('本地缓存密码已经失效, 开始重新输入密码;');
     toast.destroy()
 
@@ -97,8 +97,8 @@ const reEnterPassword = async () => {
             }) => {
                 console.log(`密码授权成功，获得新凭证${data}；执行进入原请求流程`);
 
-                localStorage.setItem('rejiejay-task-assist-token', data)
-                localStorage.setItem('rejiejay-task-assist-password', password)
+                localStorage.setItem('rejiejay-require-assist-token', data)
+                localStorage.setItem('rejiejay-require-assist-password', password)
 
                 inputPopUpDestroy()
                 reRequestHandle(data)
@@ -110,7 +110,7 @@ const reEnterPassword = async () => {
 
     }
 
-    const defaultValue = localStorage.getItem('rejiejay-task-assist-password')
+    const defaultValue = localStorage.getItem('rejiejay-require-assist-password')
 
     inputPopUp({
         title: '请输入登录密码?',
@@ -126,7 +126,7 @@ const reEnterPassword = async () => {
 const reAuthPassword = () => {
     console.log('根据本地密码开始再次授权流程;');
 
-    const password = localStorage.getItem('rejiejay-task-assist-password')
+    const password = localStorage.getItem('rejiejay-require-assist-password')
     toast.destroy()
     window.fetch(`${config.origin}user/login?name=rejiejay&password=${password}`, {
         method: 'GET',
@@ -144,8 +144,8 @@ const reAuthPassword = () => {
         }) => {
             console.log(`密码授权成功，获得新凭证${data}；执行进入原请求流程`);
 
-            localStorage.setItem('rejiejay-task-assist-token', data)
-            localStorage.setItem('rejiejay-task-assist-password', password)
+            localStorage.setItem('rejiejay-require-assist-token', data)
+            localStorage.setItem('rejiejay-require-assist-password', password)
 
             reRequestHandle(data)
         },

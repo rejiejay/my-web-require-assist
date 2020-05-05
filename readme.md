@@ -15,5 +15,5 @@ npm run build
 
 # localStorage
 
-localStorage['rejiejay-task-assist-token']  
-localStorage['rejiejay-task-assist-password']  
+localStorage['rejiejay-require-assist-token']  
+localStorage['rejiejay-require-assist-password']  
