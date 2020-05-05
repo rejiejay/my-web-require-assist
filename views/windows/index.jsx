@@ -9,6 +9,16 @@ class MainComponent extends React.Component {
     }
 
     async componentDidMount() {
+        this.initMind()
+    }
+
+    initMind() {
+        const mind = new jsMind({
+            container: 'jsmind_container',
+            editable: true,
+            theme: 'orange'
+        });
+        mind.show();
     }
 
     render() {
@@ -25,7 +35,7 @@ class MainComponent extends React.Component {
                 </div>
             </div>,
 
-            <div className="mind">
+            <div className="mind" id="jsmind_container">
             </div>
         ]
     }

@@ -10,6 +10,9 @@
     <script type="text/javascript" charset="utf-8" src="./../lib/react/react.js"></script>
     <script type="text/javascript" charset="utf-8" src="./../lib/react/react-dom.js"></script>
 
+    <script type="text/javascript" charset="utf-8" src="./../lib/mind/index.js"></script>
+    <link type="text/css" rel="stylesheet" href="./../lib/mind/index.css">
+
     <link type="text/css" rel="stylesheet" href="./index.css<%=version%>">
     <script type="text/javascript" charset="utf-8" src="./index.js<%=version%>"></script>
 </head>
