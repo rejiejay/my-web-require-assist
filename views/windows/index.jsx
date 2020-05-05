@@ -7,17 +7,22 @@ class MainComponent extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-        }
+        this.state = {}
+
+        this.mindData
+        this.mindInstan
     }
 
     async componentDidMount() {
         await login()
-        this.initMind()
+        await this.initMind()
+        await this.initSelectHandle()
     }
 
     async initMind() {
-        let mind = {
+        const self = this
+
+        this.mindData = {
             meta: { name: "jsMind", author: "hizzgdev@163.com", version: "0.4.6" },
             format: "node_array",
             data: CONST.MIND.DEFAULTS
@@ -27,7 +32,7 @@ class MainComponent extends React.Component {
             ({ data }) => {
                 const root = data.find(element => element.id === 1);
 
-                mind.data = [
+                self.mindData.data = [
                     {
                         id: 1,
                         isroot: true,
@@ -44,13 +49,30 @@ class MainComponent extends React.Component {
             },
             error => { }
         )
-        const mindInstan = new jsMind({
+        this.mindInstan = new jsMind({
             container: 'jsmind_container',
             editable: true,
             theme: CONST.THEME.PRIMARY
         })
 
-        mindInstan.show(mind);
+        this.mindInstan.show(this.mindData);
+    }
+
+    initSelectHandle() {
+        const self = this
+
+        const selectNodeHandle = node => {
+            const data = self.mindInstan.get_node(node)
+            console.log('data', data.id)
+        }
+
+        this.mindInstan.add_event_listener((type, { evt, node }) => {
+            if (type === 4 && evt === 'select_node') selectNodeHandle(node)
+        });
+    }
+
+    expandAllHandle() {
+        this.mindInstan.expand_all()
     }
 
     render() {
@@ -59,7 +81,9 @@ class MainComponent extends React.Component {
             <div className="operation">
                 <div className="operation-container flex-start">
                     <div className="operation-item">
-                        <div className="operation-item-container flex-center">展开所有</div>
+                        <div className="operation-item-container flex-center"
+                            onClick={this.expandAllHandle.bind(this)}
+                        >展开所有</div>
                     </div>
                     <div className="operation-item">
                         <div className="operation-item-container flex-center">随机查看</div>
@@ -67,8 +91,7 @@ class MainComponent extends React.Component {
                 </div>
             </div>,
 
-            <div className="mind" id="jsmind_container">
-            </div>
+            <div className="mind" id="jsmind_container"></div>
         ]
     }
 }
