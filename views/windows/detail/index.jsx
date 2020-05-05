@@ -13,6 +13,7 @@ class MainComponent extends React.Component {
             view: '',
             nature: '',
 
+            parent: null,
             childNodes: []
         }
 
@@ -38,9 +39,20 @@ class MainComponent extends React.Component {
 
     async initMind() {
         const self = this
+        const { id, status } = this
 
-        await fetch.get({ url: 'mind/get/all', query: {} }).then(
-            ({ data }) => { },
+        if (status !== CONST.PAGE_STATUS.EDIT) return
+
+        await fetch.get({ url: 'mind/get/id', query: { id } }).then(
+            ({ data: { childNodes, current, parent } }) => self.setState({
+                title: current.title,
+                content: current.content,
+                timeSpan: current.timeSpan,
+                view: current.view,
+                nature: current.nature,
+                parent,
+                childNodes
+            }),
             error => { }
         )
     }
@@ -53,14 +65,17 @@ class MainComponent extends React.Component {
 
     editParentIdHandle() { }
 
-    addHandle() { }
+    saveAddHandle() { }
+
+    creatNewHandle() { }
 
     initParentHandle() { }
 
     initNodeHandle() { }
 
     render() {
-        const { title, content, timeSpan, view, nature, childNodes } = this.state
+        const { title, content, timeSpan, view, nature, parent, childNodes } = this.state
+        const { status } = this
 
         return [
             <div className="mind flex-center">
@@ -112,35 +127,41 @@ class MainComponent extends React.Component {
                     <div className="mind-operating">
                         <div className="mind-operating-container">
 
-                            <div className="mind-operating-item">
+                            {status === CONST.PAGE_STATUS.ADD && <div className="mind-operating-item">
+                                <div className="operating-item-container flex-center close-container noselect"
+                                    onClick={this.saveAddHandle.bind(this)}
+                                >保存</div>
+                            </div>}
+
+                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.updateHandle.bind(this)}
                                 >更新当前需求</div>
-                            </div>
+                            </div>}
 
-                            <div className="mind-operating-item">
+                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.editParentIdHandle.bind(this)}
                                 >修改当前id</div>
-                            </div>
+                            </div>}
 
-                            <div className="mind-operating-item">
+                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.closeHandle.bind(this)}
                                 >追溯当前需求路径</div>
-                            </div>
+                            </div>}
 
-                            <div className="mind-operating-item">
+                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
-                                    onClick={this.addHandle.bind(this)}
-                                >当前层级新增</div>
-                            </div>
+                                    onClick={this.creatNewHandle.bind(this)}
+                                >新增(在当前层级)</div>
+                            </div>}
 
-                            <div className="mind-operating-item">
+                            {status === CONST.PAGE_STATUS.EDIT && parent && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.initParentHandle.bind(this)}
-                                >查看上一层</div>
-                            </div>
+                                >查看上一层({parent.title})</div>
+                            </div>}
 
                             <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
@@ -148,7 +169,7 @@ class MainComponent extends React.Component {
                                 >随机查看一条数据</div>
                             </div>
 
-                            {childNodes.map((node, key) =>
+                            {status === CONST.PAGE_STATUS.EDIT && childNodes.map((node, key) =>
                                 <div className="mind-operating-item" key={key}>
                                     <div className="operating-item-container flex-center close-container noselect"
                                         onClick={() => this.initNodeHandle(node.id)}
