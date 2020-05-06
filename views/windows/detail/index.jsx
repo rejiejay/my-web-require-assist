@@ -245,7 +245,11 @@ class MainComponent extends React.Component {
         this.initMind()
     }
 
-    initNodeHandle() { }
+    initNodeHandle(id) {
+        this.id = +id
+        this.status = CONST.PAGE_STATUS.EDIT
+        this.initMind()
+    }
 
     delNodeHandle() { }
 
@@ -355,7 +359,7 @@ class MainComponent extends React.Component {
                             {status === CONST.PAGE_STATUS.EDIT && childNodes.map((node, key) =>
                                 <div className="mind-operating-item" key={key}>
                                     <div className="operating-item-container flex-center close-container noselect"
-                                        onClick={() => this.initNodeHandle(node.id)}
+                                        onClick={() => this.initNodeHandle(+node.id)}
                                     >查看子节点({node.title})</div>
                                 </div>
                             )}
