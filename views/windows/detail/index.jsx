@@ -1,4 +1,5 @@
 import fetch from './../../../components/async-fetch/fetch.js';
+import toast from './../../../components/toast.js'
 
 import CONST from './const.js';
 
@@ -9,8 +10,8 @@ class MainComponent extends React.Component {
         this.state = {
             title: '',
             content: '',
-            timeSpan: '',
-            view: '',
+            timeSpan: '一周: \n一个月: \n一年: \n三年: \n十年: ',
+            view: '自身理解需求: \n自身尊重: \n自身基本生活(性)需求: \nTa人(父母/好友/妻子)角度: \n国家角度: \n',
             nature: '',
 
             parent: null,
@@ -57,7 +58,23 @@ class MainComponent extends React.Component {
         )
     }
 
-    updateHandle() { }
+    updateHandle() {
+        const { title, content, timeSpan, view, nature } = this.state
+        const { id, status } = this
+
+        if (!title) return toast.show('标题不能为空');
+        if (!content) return toast.show('内容不能为空');
+
+        if (status !== CONST.PAGE_STATUS.EDIT) return
+
+        fetch.post({
+            url: 'mind/edit/id',
+            body: { id, title, content, timeSpan, view, nature }
+        }).then(
+            res => toast.show('更新成功'),
+            error => { }
+        )
+    }
 
     closeHandle() { }
 
