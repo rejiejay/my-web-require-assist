@@ -122,7 +122,33 @@ class MainComponent extends React.Component {
         })
     }
 
-    initRandomHandle() { }
+    async initRandomHandle() {
+        const self = this
+
+        await fetch.get({ url: 'mind/get/random', query: {} }).then(
+            ({ data: { childNodes, current, parent } }) => {
+                self.id = current.id
+                self.status = CONST.PAGE_STATUS.EDIT
+                self.mind = {
+                    title: current.title,
+                    content: current.content,
+                    timeSpan: current.timeSpan,
+                    view: current.view,
+                    nature: current.nature
+                }
+                self.setState({
+                    title: current.title,
+                    content: current.content,
+                    timeSpan: current.timeSpan,
+                    view: current.view,
+                    nature: current.nature,
+                    parent,
+                    childNodes
+                })
+            },
+            error => { }
+        )
+    }
 
     editParentIdHandle() { }
 
@@ -133,6 +159,8 @@ class MainComponent extends React.Component {
     initParentHandle() { }
 
     initNodeHandle() { }
+
+    delNodeHandle() { }
 
     render() {
         const { title, content, timeSpan, view, nature, parent, childNodes } = this.state
@@ -229,6 +257,12 @@ class MainComponent extends React.Component {
                                     onClick={this.initRandomHandle.bind(this)}
                                 >随机查看一条数据</div>
                             </div>
+
+                            {status === CONST.PAGE_STATUS.EDIT && childNodes.length === 0 && <div className="mind-operating-item">
+                                <div className="operating-item-container flex-center close-container noselect"
+                                    onClick={this.delNodeHandle.bind(this)}
+                                >删除当前需求</div>
+                            </div>}
 
                             {status === CONST.PAGE_STATUS.EDIT && childNodes.map((node, key) =>
                                 <div className="mind-operating-item" key={key}>
