@@ -13,14 +13,16 @@ class MainComponent extends React.Component {
             id: null,
             title: '',
             content: '',
-            timeSpan: '一周: \n一个月: \n一年: \n三年: \n十年: ',
-            view: '自身理解需求: \n自身尊重: \n自身基本生活(性)需求: \nTa人(父母/好友/妻子)角度: \n国家角度: \n',
+            timeSpan: CONST.PAGE_STATUS.DEFAULTS.timeSpan,
+            view: CONST.PAGE_STATUS.DEFAULTS.view,
             nature: '',
 
             parent: null,
             childNodes: []
         }
 
+        this.parentid = null
+        this.parentTitle = null
         this.id = null
         this.status = CONST.PAGE_STATUS.DEFAULTS
         this.mind = CONST.MIND.DEFAULTS
@@ -47,7 +49,7 @@ class MainComponent extends React.Component {
         const self = this
         const { id, status } = this
 
-        if (status !== CONST.PAGE_STATUS.EDIT) return
+        if (status !== CONST.PAGE_STATUS.EDIT) return this.initRandomHandle()
 
         await fetch.get({ url: 'mind/get/id', query: { id } }).then(
             ({ data: { childNodes, current, parent } }) => {
@@ -187,9 +189,53 @@ class MainComponent extends React.Component {
         })
     }
 
-    saveAddHandle() { }
+    saveAddHandle() {
+        const self = this
+        const { title, content, timeSpan, view, nature } = this.state
+        const { parentid, parentTitle } = this
 
-    creatNewHandle() { }
+        if (!title) return toast.show('标题不能为空');
+        if (!content) return toast.show('内容不能为空');
+
+        const handle = () => {
+            fetch.post({
+                url: 'mind/add/parentid',
+                body: { parentid, title, content, timeSpan, view, nature }
+            }).then(
+                ({ data }) => {
+                    self.id = data.id
+                    self.status = CONST.PAGE_STATUS.EDIT
+                    self.initMind()
+                },
+                error => { }
+            )
+        }
+
+        confirmPopUp({
+            title: `你确定要保存到{${parentTitle}}吗?`,
+            succeedHandle: handle
+        })
+    }
+
+    creatNewHandle() {
+        const { id } = this
+        const { title } = this.state
+        this.parentid = +id
+        this.parentTitle = title
+        this.id = null
+        this.mind = CONST.MIND.DEFAULTS
+        this.status = CONST.PAGE_STATUS.ADD
+        this.setState({
+            id: null,
+            title: '',
+            content: '',
+            timeSpan: CONST.MIND.DEFAULTS.timeSpan,
+            view: CONST.MIND.DEFAULTS.view,
+            nature: '',
+            parent: null,
+            childNodes: []
+        })
+    }
 
     initParentHandle() { }
 

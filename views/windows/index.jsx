@@ -31,7 +31,7 @@ class MainComponent extends React.Component {
 
         await fetch.get({ url: 'mind/get/all', query: {} }).then(
             ({ data }) => {
-                const root = data.find(element => element.id === 1);
+                const root = data.find(element => +element.id === 1);
 
                 self.mindData.data = [
                     {
@@ -39,7 +39,7 @@ class MainComponent extends React.Component {
                         isroot: true,
                         topic: root.title
                     },
-                    ...data.filter(element => element.id !== 1).map(item => ({
+                    ...data.filter(element => +element.id !== 1).map(item => ({
                         id: +item.id,
                         parentid: +item.parentid,
                         topic: item.title,
@@ -87,16 +87,16 @@ class MainComponent extends React.Component {
 
     collapseAllHandle() {
         const self = this
-        this.mindData.data.filter(element => element.id !== 1).map(element => self.mindInstan.collapse_node(element.id))
+        this.mindData.data.filter(element => +element.id !== 1).map(element => self.mindInstan.collapse_node(+element.id))
         this.colorRestoration()
     }
 
     colorRestoration() {
         const self = this
-        this.mindData.data.filter(element => element.id !== 1).map(element => {
+        this.mindData.data.filter(element => +element.id !== 1).map(element => {
             const bgcolor = '#428bca'
             const fgcolor = '#FFF'
-            self.mindInstan.set_node_color(element.id, bgcolor, fgcolor)
+            self.mindInstan.set_node_color(+element.id, bgcolor, fgcolor)
         })
     }
 
@@ -105,7 +105,7 @@ class MainComponent extends React.Component {
 
         if (id === 1) return false /** 无法展开根目录 */
 
-        const currentNode = this.mindData.data.find(element => element.id === id);
+        const currentNode = this.mindData.data.find(element => +element.id === id);
 
         if (!currentNode) return toast.show(`无法找到id=${id}`)
 
@@ -114,7 +114,7 @@ class MainComponent extends React.Component {
             depthList.push(node.id)
 
             if (node.parentid !== 1) {
-                const parentNode = self.mindData.data.find(element => element.id === node.parentid);
+                const parentNode = self.mindData.data.find(element => +element.id === node.parentid);
                 findParent(parentNode)
             }
         }
@@ -124,7 +124,7 @@ class MainComponent extends React.Component {
 
         const bgcolor = '#f1c40f'
         const fgcolor = '#FFF'
-        this.mindInstan.set_node_color(currentNode.id, bgcolor, fgcolor)
+        this.mindInstan.set_node_color(+currentNode.id, bgcolor, fgcolor)
 
         depthList.reverse().map(id => self.mindInstan.expand_node(id))
     }
@@ -140,11 +140,11 @@ class MainComponent extends React.Component {
             }
             return mindArray;
         }
-        const mindData = this.mindData.data.filter(element => element.id !== 1)
+        const mindData = this.mindData.data.filter(element => +element.id !== 1)
 
         const randomNode = shuffle(mindData)[0]
 
-        this.expandNodeHandle(randomNode.id)
+        this.expandNodeHandle(+randomNode.id)
     }
 
     render() {
