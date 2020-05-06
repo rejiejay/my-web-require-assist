@@ -1,6 +1,7 @@
 import fetch from './../../../components/async-fetch/fetch.js';
 import toast from './../../../components/toast.js'
 import { confirmPopUp } from './../../../components/confirm-popup.js';
+import { inputPopUp, inputPopUpDestroy } from './../../../components/input-popup.js';
 
 import CONST from './const.js';
 
@@ -9,6 +10,7 @@ class MainComponent extends React.Component {
         super(props)
 
         this.state = {
+            id: null,
             title: '',
             content: '',
             timeSpan: '一周: \n一个月: \n一年: \n三年: \n十年: ',
@@ -33,6 +35,7 @@ class MainComponent extends React.Component {
         const editId = window.sessionStorage['require-assist-detail-id']
 
         if (editId) {
+            this.setState({ id: editId })
             this.id = editId
             this.status = CONST.PAGE_STATUS.EDIT
         }
@@ -56,6 +59,7 @@ class MainComponent extends React.Component {
                     nature: current.nature
                 }
                 self.setState({
+                    id,
                     title: current.title,
                     content: current.content,
                     timeSpan: current.timeSpan,
@@ -85,7 +89,7 @@ class MainComponent extends React.Component {
             body: { id, title, content, timeSpan, view, nature }
         }).then(
             res => {
-                self.mind = { title: title, content: content, timeSpan: timeSpan, view: view, nature: nature }
+                self.mind = { title, content, timeSpan, view, nature }
                 toast.show('更新成功')
             },
             error => { }
@@ -140,6 +144,7 @@ class MainComponent extends React.Component {
                     nature: current.nature
                 }
                 self.setState({
+                    id: current.id,
                     title: current.title,
                     content: current.content,
                     timeSpan: current.timeSpan,
@@ -153,7 +158,34 @@ class MainComponent extends React.Component {
         )
     }
 
-    editParentIdHandle() { }
+    editParentIdHandle() {
+        const { id } = this
+        const self = this
+
+        const inputHandle = async newParentId => {
+            await fetch.post({
+                url: 'mind/edit/parent/id',
+                body: {
+                    newParentId,
+                    oldId: id
+                }
+            }).then(
+                () => {
+                    self.initMind()
+                    toast.show('更新成功')
+                    inputPopUpDestroy()
+                },
+                error => { }
+            )
+        }
+
+        inputPopUp({
+            title: '请输要修改的节点, 或节点的别名?',
+            inputHandle,
+            mustInput: false,
+            defaultValue: id
+        })
+    }
 
     saveAddHandle() { }
 
@@ -166,7 +198,7 @@ class MainComponent extends React.Component {
     delNodeHandle() { }
 
     render() {
-        const { title, content, timeSpan, view, nature, parent, childNodes } = this.state
+        const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
         const { status } = this
 
         return [
@@ -174,11 +206,12 @@ class MainComponent extends React.Component {
                 <div className="mind-container flex-start-top">
 
                     <div className="mind-content flex-rest">
-                        <div className="title-input flex-center">
+                        <div className="title-input flex-start-center">
                             <input type="text" placeholder="请输入标题"
                                 value={title}
                                 onChange={({ target: { value } }) => this.setState({ title: value })}
                             />
+                            {id && <div className="title-id">{id}</div>}
                         </div>
                         <div className="edit-separation"></div>
                         <div className="content-input">
