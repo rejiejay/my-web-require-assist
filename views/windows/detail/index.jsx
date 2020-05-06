@@ -1,5 +1,6 @@
 import fetch from './../../../components/async-fetch/fetch.js';
 import toast from './../../../components/toast.js'
+import { confirmPopUp } from './../../../components/confirm-popup.js';
 
 import CONST from './const.js';
 
@@ -20,6 +21,7 @@ class MainComponent extends React.Component {
 
         this.id = null
         this.status = CONST.PAGE_STATUS.DEFAULTS
+        this.mind = CONST.MIND.DEFAULTS
     }
 
     async componentDidMount() {
@@ -45,20 +47,30 @@ class MainComponent extends React.Component {
         if (status !== CONST.PAGE_STATUS.EDIT) return
 
         await fetch.get({ url: 'mind/get/id', query: { id } }).then(
-            ({ data: { childNodes, current, parent } }) => self.setState({
-                title: current.title,
-                content: current.content,
-                timeSpan: current.timeSpan,
-                view: current.view,
-                nature: current.nature,
-                parent,
-                childNodes
-            }),
+            ({ data: { childNodes, current, parent } }) => {
+                self.mind = {
+                    title: current.title,
+                    content: current.content,
+                    timeSpan: current.timeSpan,
+                    view: current.view,
+                    nature: current.nature
+                }
+                self.setState({
+                    title: current.title,
+                    content: current.content,
+                    timeSpan: current.timeSpan,
+                    view: current.view,
+                    nature: current.nature,
+                    parent,
+                    childNodes
+                })
+            },
             error => { }
         )
     }
 
     updateHandle() {
+        const self = this
         const { title, content, timeSpan, view, nature } = this.state
         const { id, status } = this
 
@@ -66,17 +78,49 @@ class MainComponent extends React.Component {
         if (!content) return toast.show('内容不能为空');
 
         if (status !== CONST.PAGE_STATUS.EDIT) return
+        if (this.verifyEditDiff() === false) return toast.show('没有数据改变')
 
         fetch.post({
             url: 'mind/edit/id',
             body: { id, title, content, timeSpan, view, nature }
         }).then(
-            res => toast.show('更新成功'),
+            res => {
+                self.mind = { title: title, content: content, timeSpan: timeSpan, view: view, nature: nature }
+                toast.show('更新成功')
+            },
             error => { }
         )
     }
 
-    closeHandle() { }
+    verifyEditDiff() {
+        const { status } = this
+        if (status !== CONST.PAGE_EDIT_STATUS.EDIT) return false
+
+        const { title, content, timeSpan, view, nature } = this.state
+        const mind = this.mind
+
+        let isDiff = false
+        if (title !== mind.title) isDiff = true
+        if (content !== mind.content) isDiff = true
+        if (timeSpan !== mind.timeSpan) isDiff = true
+        if (view !== mind.view) isDiff = true
+        if (nature !== mind.nature) isDiff = true
+        return isDiff
+    }
+
+    closeHandle() {
+        const { title, content, timeSpan, view, nature } = this.state
+        const { status } = this
+        const colse = () => window.history.back(-1)
+
+        if (status === CONST.PAGE_EDIT_STATUS.ADD && !!!title && !!!content && !!!timeSpan && !!!view && !!!nature) return colse();
+        if (this.verifyEditDiff() === false) return colse();
+
+        confirmPopUp({
+            title: `数据未保存, 你确认要退出吗?`,
+            succeedHandle: colse
+        })
+    }
 
     initRandomHandle() { }
 
