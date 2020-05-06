@@ -1,5 +1,6 @@
 import fetch from './../../components/async-fetch/fetch.js';
 import login from './../../components/login.js';
+import toast from './../../components/toast.js'
 
 import CONST from './const.js';
 
@@ -56,6 +57,12 @@ class MainComponent extends React.Component {
         })
 
         this.mindInstan.show(this.mindData);
+
+        const editId = window.sessionStorage['require-assist-detail-id']
+        if (editId) {
+            this.expandNodeHandle(+editId)
+            window.sessionStorage['require-assist-detail-id'] = ''
+        }
     }
 
     initSelectHandle() {
@@ -93,8 +100,36 @@ class MainComponent extends React.Component {
         })
     }
 
-    expandRandomHandle() {
+    expandNodeHandle(id) {
         const self = this
+
+        if (id === 1) return false /** 无法展开根目录 */
+
+        const currentNode = this.mindData.data.find(element => element.id === id);
+
+        if (!currentNode) return toast.show(`无法找到id=${id}`)
+
+        let depthList = []
+        const findParent = node => {
+            depthList.push(node.id)
+
+            if (node.parentid !== 1) {
+                const parentNode = self.mindData.data.find(element => element.id === node.parentid);
+                findParent(parentNode)
+            }
+        }
+        findParent(currentNode)
+
+        this.collapseAllHandle()
+
+        const bgcolor = '#f1c40f'
+        const fgcolor = '#FFF'
+        this.mindInstan.set_node_color(currentNode.id, bgcolor, fgcolor)
+
+        depthList.reverse().map(id => self.mindInstan.expand_node(id))
+    }
+
+    expandRandomHandle() {
         const shuffle = mindArray => {
             let len = mindArray.length;
             for (let i = 0; i < len - 1; i++) {
@@ -109,24 +144,7 @@ class MainComponent extends React.Component {
 
         const randomNode = shuffle(mindData)[0]
 
-        let depthList = []
-        const findParent = node => {
-            depthList.push(node.id)
-
-            if (node.parentid !== 1) {
-                const parentNode = mindData.find(element => element.id === node.parentid);
-                findParent(parentNode)
-            }
-        }
-        findParent(randomNode)
-
-        this.collapseAllHandle()
-
-        const bgcolor = '#f1c40f'
-        const fgcolor = '#FFF'
-        self.mindInstan.set_node_color(randomNode.id, bgcolor, fgcolor)
-
-        depthList.reverse().map(id => self.mindInstan.expand_node(id))
+        this.expandNodeHandle(randomNode.id)
     }
 
     render() {

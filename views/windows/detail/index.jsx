@@ -94,7 +94,7 @@ class MainComponent extends React.Component {
 
     verifyEditDiff() {
         const { status } = this
-        if (status !== CONST.PAGE_EDIT_STATUS.EDIT) return false
+        if (status !== CONST.PAGE_STATUS.EDIT) return false
 
         const { title, content, timeSpan, view, nature } = this.state
         const mind = this.mind
@@ -110,10 +110,13 @@ class MainComponent extends React.Component {
 
     closeHandle() {
         const { title, content, timeSpan, view, nature } = this.state
-        const { status } = this
-        const colse = () => window.history.back(-1)
+        const { id, status } = this
+        const colse = () => {
+            window.sessionStorage.setItem('require-assist-detail-id', id)
+            window.history.back(-1)
+        }
 
-        if (status === CONST.PAGE_EDIT_STATUS.ADD && !!!title && !!!content && !!!timeSpan && !!!view && !!!nature) return colse();
+        if (status === CONST.PAGE_STATUS.ADD && !!!title && !!!content && !!!timeSpan && !!!view && !!!nature) return colse();
         if (this.verifyEditDiff() === false) return colse();
 
         confirmPopUp({
@@ -216,6 +219,12 @@ class MainComponent extends React.Component {
                     <div className="mind-operating">
                         <div className="mind-operating-container">
 
+                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
+                                <div className="operating-item-container flex-center close-container noselect"
+                                    onClick={this.closeHandle.bind(this)}
+                                >追溯当前需求路径</div>
+                            </div>}
+
                             {status === CONST.PAGE_STATUS.ADD && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.saveAddHandle.bind(this)}
@@ -232,12 +241,6 @@ class MainComponent extends React.Component {
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.editParentIdHandle.bind(this)}
                                 >修改当前id</div>
-                            </div>}
-
-                            {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
-                                <div className="operating-item-container flex-center close-container noselect"
-                                    onClick={this.closeHandle.bind(this)}
-                                >追溯当前需求路径</div>
                             </div>}
 
                             {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
