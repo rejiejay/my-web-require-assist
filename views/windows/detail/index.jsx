@@ -251,7 +251,25 @@ class MainComponent extends React.Component {
         this.initMind()
     }
 
-    delNodeHandle() { }
+    delNodeHandle() {
+        const self = this
+        const { id } = this
+
+        const handle = () => {
+            fetch.post({
+                url: 'mind/del/id',
+                body: { id }
+            }).then(
+                () => self.initRandomHandle(),
+                error => { }
+            )
+        }
+
+        confirmPopUp({
+            title: `你确定要删除吗?`,
+            succeedHandle: handle
+        })
+    }
 
     render() {
         const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
