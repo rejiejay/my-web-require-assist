@@ -21,8 +21,8 @@ class MainComponent extends React.Component {
             childNodes: []
         }
 
-        this.parentid = null
-        this.parentTitle = null
+        this.newParentid = null
+        this.newParentTitle = null
         this.id = null
         this.status = CONST.PAGE_STATUS.DEFAULTS
         this.mind = CONST.MIND.DEFAULTS
@@ -192,7 +192,7 @@ class MainComponent extends React.Component {
     saveAddHandle() {
         const self = this
         const { title, content, timeSpan, view, nature } = this.state
-        const { parentid, parentTitle } = this
+        const { newParentid, newParentTitle } = this
 
         if (!title) return toast.show('标题不能为空');
         if (!content) return toast.show('内容不能为空');
@@ -200,7 +200,7 @@ class MainComponent extends React.Component {
         const handle = () => {
             fetch.post({
                 url: 'mind/add/parentid',
-                body: { parentid, title, content, timeSpan, view, nature }
+                body: { parentid: newParentid, title, content, timeSpan, view, nature }
             }).then(
                 ({ data }) => {
                     self.id = data.id
@@ -212,7 +212,7 @@ class MainComponent extends React.Component {
         }
 
         confirmPopUp({
-            title: `你确定要保存到{${parentTitle}}吗?`,
+            title: `你确定要保存到{${newParentTitle}}吗?`,
             succeedHandle: handle
         })
     }
@@ -220,8 +220,8 @@ class MainComponent extends React.Component {
     creatNewHandle() {
         const { id } = this
         const { title } = this.state
-        this.parentid = +id
-        this.parentTitle = title
+        this.newParentid = +id
+        this.newParentTitle = title
         this.id = null
         this.mind = CONST.MIND.DEFAULTS
         this.status = CONST.PAGE_STATUS.ADD
@@ -237,7 +237,13 @@ class MainComponent extends React.Component {
         })
     }
 
-    initParentHandle() { }
+    initParentHandle() {
+        const { parent } = this.state
+
+        this.id = +parent.id
+        this.status = CONST.PAGE_STATUS.EDIT
+        this.initMind()
+    }
 
     initNodeHandle() { }
 
