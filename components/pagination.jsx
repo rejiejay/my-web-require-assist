@@ -1,4 +1,5 @@
 import toast from './toast.js';
+import { createRandomStr } from './../utils/string-handle.js';
 
 class PaginationComponent extends React.Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class PaginationComponent extends React.Component {
         const self = this
         const { pageNo, pageTotal } = this.props
 
-        const renderByArray = pages => pages.map(thisNo => <div key={`pageNo${thisNo}`}
+        const renderByArray = pages => pages.map(thisNo => <div key={`pageNo${thisNo}${createRandomStr({ length: 4 })}`}
             className={`list-pagination-item ${pageNo === thisNo ? 'pagination-item-selected' : ''}`}
             onClick={() => self.pageNoChangeHandle(thisNo)}
         >{thisNo}</div>)
@@ -40,17 +41,17 @@ class PaginationComponent extends React.Component {
         /** 含义: 这以下的情况 是 页码大于9的情况 */
         const back5PageCount = pageTotal - 5
 
-        const firstPage = <div className="list-pagination-item" key='pageTotal'
+        const firstPage = <div className="list-pagination-item" key={`${createRandomStr({ length: 16 })}`}
             onClick={() => self.pageNoChangeHandle(1)}
         >1</div>
 
-        const lastPage = <div className="list-pagination-item" key='pageTotal'
+        const lastPage = <div className="list-pagination-item" key={`${createRandomStr({ length: 16 })}`}
             onClick={() => self.pageNoChangeHandle(pageTotal)}
         >{pageTotal}</div>
 
         const pointIcon = key => <div className="list-pagination-point" key={key ? `point${key}` : 'point'}>...</div>
 
-        if (pageNo <= 5) {
+        if (pageNo < 5) {
             /** 含义: 页码小于5 显示1~5/.../最后一页 */
             let pagination = renderByArray(Array.from({ length: 5 }).map((item, index) => (index + 1)))
 
@@ -58,12 +59,13 @@ class PaginationComponent extends React.Component {
             pagination.push(lastPage)
 
             return pagination
-        } else if (pageNo >= back5PageCount) {
-            /** 含义: 页码倒数5页 显示1页/.../最后5页 */
+        } else if (pageNo > back5PageCount) {
+            /** 含义: 页码倒数6页 显示1页/.../最后5页 */
             let pagination = [firstPage]
             pagination.push(pointIcon())
 
-            pagination = pagination.concat(renderByArray(Array.from({ length: 5 }).map((item, index) => (back5PageCount + index + 1))))
+            const back6PageCount = back5PageCount - 1
+            pagination = pagination.concat(renderByArray(Array.from({ length: 6 }).map((item, index) => (back6PageCount + index + 1))))
 
             return pagination
         } else {
