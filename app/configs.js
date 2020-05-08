@@ -9,6 +9,10 @@ const configs = [{
     route: '/windows-detail/index.html',
     entry: './views/windows-detail',
     output: './build/windows-detail'
+}, {
+    route: '/detail/index.html',
+    entry: './views/detail',
+    output: './build/detail'
 }]
 
 export default configs
