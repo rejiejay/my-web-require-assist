@@ -2,6 +2,7 @@ import fetch from './../../components/async-fetch/fetch.js';
 import toast from './../../components/toast.js'
 import { confirmPopUp } from './../../components/confirm-popup.js';
 import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js';
+import { dropDownSelectPopup } from './../../components/drop-down-select-popup.js';
 
 import CONST from './const.js';
 
@@ -251,6 +252,21 @@ class MainComponent extends React.Component {
         this.initMind()
     }
 
+    showChildNodes() {
+        const self = this
+        const { childNodes } = this.state
+
+        const handle = ({ value, label }) => self.initNodeHandle(value)
+
+        dropDownSelectPopup({
+            list: childNodes.map(({ id, title }) => ({
+                value: id,
+                label: title
+            })),
+            handle
+        })
+    }
+
     delNodeHandle() {
         const self = this
         const { id } = this
@@ -335,9 +351,56 @@ class MainComponent extends React.Component {
             <div className="nodes-operating item">
                 <div className="item-description">节点选择</div>
                 <div className="item-container flex-start-center">
-                    {status === CONST.PAGE_STATUS.EDIT && parent && <div className=" flex-center flex-rest">上一层</div>}
-                    <div className="flex-center flex-rest">随机选择</div>
-                    {status === CONST.PAGE_STATUS.EDIT && childNodes && childNodes.length > 0 && <div className="flex-center flex-rest">查看子节点</div>}
+                    {status === CONST.PAGE_STATUS.EDIT && parent && [
+                        <div className=" flex-center flex-rest"
+                            onClick={this.initParentHandle.bind(this)}
+                        >上一层</div>,
+                        <div class="vertical-line"></div>
+                    ]}
+
+                    <div className="flex-center flex-rest"
+                        onClick={this.initRandomHandle.bind(this)}
+                    >随机选择</div>
+
+                    {status === CONST.PAGE_STATUS.EDIT && childNodes && childNodes.length > 0 && [
+                        <div class="vertical-line"></div>,
+                        <div className="flex-center flex-rest"
+                            onClick={this.showChildNodes.bind(this)}
+                        >查看子节点</div>
+                    ]}
+                </div>
+            </div>,
+
+            <div class="operation">
+                <div class="operation-container flex-start-center">
+                    {status === CONST.PAGE_STATUS.ADD && [
+                        <div class="operation-button flex-center flex-rest"
+                            onClick={this.saveAddHandle.bind(this)}
+                        >保存</div>
+                    ]}
+                    {status === CONST.PAGE_STATUS.EDIT && [
+                        <div class="operation-button flex-center flex-rest"
+                            onClick={this.creatNewHandle.bind(this)}
+                        >新增</div>,
+                        <div class="vertical-line"></div>
+                    ]}
+                    {status === CONST.PAGE_STATUS.EDIT && [
+                        <div class="operation-button flex-center flex-rest"
+                            onClick={this.editParentIdHandle.bind(this)}
+                        >节点id</div>,
+                        <div class="vertical-line"></div>
+                    ]}
+                    {status === CONST.PAGE_STATUS.EDIT && [
+                        <div class="operation-button flex-center flex-rest"
+                            onClick={this.updateHandle.bind(this)}
+                        >更新</div>,
+                        <div class="vertical-line"></div>
+                    ]}
+                    {status === CONST.PAGE_STATUS.EDIT && [
+                        <div class="operation-button flex-center flex-rest"
+                            onClick={this.closeHandle.bind(this)}
+                        >追溯</div>
+                    ]}
                 </div>
             </div>
         ]

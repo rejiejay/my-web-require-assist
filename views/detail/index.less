@@ -29,9 +29,9 @@ body {
     }
 
     .item-container {
-        border: 1px solid #ddd;
+        border          : 1px solid #ddd;
         background-color: #fff;
-        min-height: 45px;
+        min-height      : 45px;
 
         textarea {
             height: 120px;
@@ -44,7 +44,35 @@ body {
     padding-top: 25px;
 
     .title-id {
-        width: 65px;
+        width        : 65px;
         padding-right: 15px;
+    }
+}
+
+.nodes-operating {
+    padding-bottom: 125px;
+}
+
+.operation {
+    position  : fixed;
+    width     : 100%;
+    height    : 51px;
+    left      : 0px;
+    bottom    : 0px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+
+    .operation-container {
+        width : 100%;
+        height: 50px;
+    }
+}
+
+.nodes-operating,
+.operation {
+    .vertical-line {
+        height    : 50px;
+        width     : 1px;
+        background: #ddd;
     }
 }
