@@ -1,6 +1,7 @@
 import fetch from './../components/async-fetch/fetch.js';
 import login from './../components/login.js';
 import toast from './../components/toast.js'
+import deviceDiffer from './../utils/device-differ.js'
 
 import CONST from './const.js';
 
@@ -8,14 +9,15 @@ class MainComponent extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {}
+        this.state = {
+            isMobileDevice: deviceDiffer()
+        }
 
         this.mindData
         this.mindInstan
 
         this.clientHeight = document.body.offsetHeight || document.documentElement.clientHeight || window.innerHeight
         this.clientWidth = document.body.offsetWidth || document.documentElement.clientWidth || window.innerWidth
-
     }
 
     async componentDidMount() {
@@ -70,13 +72,15 @@ class MainComponent extends React.Component {
     }
 
     initSelectHandle() {
+        const { isMobileDevice } = this.state
         const self = this
 
         const selectNodeHandle = node => {
             const data = self.mindInstan.get_node(node)
 
             window.sessionStorage.setItem('require-assist-detail-id', data.id)
-            window.location.href = './detail/index.html'
+
+            isMobileDevice ? window.location.href = './detail/index.html' : window.location.href = './windows-detail/index.html'
         }
 
         this.mindInstan.add_event_listener((type, { evt, node }) => {
@@ -152,14 +156,22 @@ class MainComponent extends React.Component {
     }
 
     renderHorizontalStyle() {
+        const { isMobileDevice } = this.state
         const { clientHeight, clientWidth } = this
 
-        return {
+        return isMobileDevice ? {
+            position: 'absolute',
+            transform: 'rotate(90deg)',
+            transformOrigin: '50% 50%',
             height: clientWidth,
             width: clientHeight,
             top: (clientHeight - clientWidth) / 2,
             left: 0 - (clientHeight - clientWidth) / 2
-        }
+        } : {
+                position: 'relative',
+                height: '100%',
+                width: '100%'
+            }
     }
 
     render() {

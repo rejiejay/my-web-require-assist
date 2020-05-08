@@ -7,16 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Require Assist System</title>
 
-    <script>
-        if (!!![
-                'Android',
-                'iPhone',
-                'SymbianOS',
-                'Windows Phone',
-                'iPod'
-            ].find(agent => 0 < window.navigator.userAgent.indexOf(agent))) window.location.replace('./windows/index.html');
-    </script>
-
     <script type="text/javascript" charset="utf-8" src="./lib/react/react.js"></script>
     <script type="text/javascript" charset="utf-8" src="./lib/react/react-dom.js"></script>
 

@@ -1,7 +1,7 @@
-import fetch from './../../../components/async-fetch/fetch.js';
-import toast from './../../../components/toast.js'
-import { confirmPopUp } from './../../../components/confirm-popup.js';
-import { inputPopUp, inputPopUpDestroy } from './../../../components/input-popup.js';
+import fetch from './../../components/async-fetch/fetch.js';
+import toast from './../../components/toast.js'
+import { confirmPopUp } from './../../components/confirm-popup.js';
+import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js';
 
 import CONST from './const.js';
 
