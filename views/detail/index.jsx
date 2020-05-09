@@ -287,6 +287,18 @@ class MainComponent extends React.Component {
         })
     }
 
+    copyParentId() {
+        const { id } = this.state
+        const node = document.createElement('div');
+        node.innerHTML = `<input id="rejiejay-clipboard-input" type="text" value="${id}">`;
+        node.style.opacity = 0;
+        document.body.appendChild(node);
+        document.getElementById("rejiejay-clipboard-input").select();
+        document.execCommand("Copy");
+        document.body.removeChild(node)
+        toast.show(`复制成功: ${id}`)
+    }
+
     render() {
         const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
         const { status } = this
@@ -299,7 +311,9 @@ class MainComponent extends React.Component {
                         value={title}
                         onChange={({ target: { value } }) => this.setState({ title: value })}
                     />
-                    {id && <div className="title-id">复制ID</div>}
+                    {id && <div className="title-id"
+                        onClick={this.copyParentId.bind(this)}
+                    >复制ID</div>}
                 </div>
             </div>,
 
