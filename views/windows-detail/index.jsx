@@ -326,6 +326,7 @@ class MainComponent extends React.Component {
                     <div className="mind-operating">
                         <div className="mind-operating-container">
 
+                            <div className="mind-operating-title">操作区域</div>
                             {status === CONST.PAGE_STATUS.EDIT && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.closeHandle.bind(this)}
@@ -356,6 +357,14 @@ class MainComponent extends React.Component {
                                 >新增(在当前层级)</div>
                             </div>}
 
+                            {status === CONST.PAGE_STATUS.EDIT && childNodes.length === 0 && <div className="mind-operating-item">
+                                <div className="operating-item-container flex-center close-container noselect"
+                                    onClick={this.delNodeHandle.bind(this)}
+                                >删除当前需求</div>
+                            </div>}
+
+                            <div className="mind-operating-title">层级区域</div>
+
                             {status === CONST.PAGE_STATUS.EDIT && parent && <div className="mind-operating-item">
                                 <div className="operating-item-container flex-center close-container noselect"
                                     onClick={this.initParentHandle.bind(this)}
@@ -367,12 +376,6 @@ class MainComponent extends React.Component {
                                     onClick={this.initRandomHandle.bind(this)}
                                 >随机查看一条数据</div>
                             </div>
-
-                            {status === CONST.PAGE_STATUS.EDIT && childNodes.length === 0 && <div className="mind-operating-item">
-                                <div className="operating-item-container flex-center close-container noselect"
-                                    onClick={this.delNodeHandle.bind(this)}
-                                >删除当前需求</div>
-                            </div>}
 
                             {status === CONST.PAGE_STATUS.EDIT && childNodes.map((node, key) =>
                                 <div className="mind-operating-item" key={key}>
