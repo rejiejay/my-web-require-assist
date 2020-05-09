@@ -330,7 +330,7 @@ class MainComponent extends React.Component {
             </div>,
 
             <div className="item">
-                <div className="item-description">时间跨度</div>
+                <div className="item-description">时间跨度考量</div>
                 <div className="item-container flex-start-center">
                     <textarea className="content-textarea fiex-rest" type="text"
                         placeholder="不同时间跨度如何看待"

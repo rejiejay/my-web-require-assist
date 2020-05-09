@@ -288,6 +288,7 @@ class MainComponent extends React.Component {
                             {id && <div className="title-id">{id}</div>}
                         </div>
                         <div className="edit-separation"></div>
+                        <div className="edit-mind-description">策略结论</div>
                         <div className="content-input">
                             <textarea className="content-textarea fiex-rest" type="text"
                                 placeholder="请输入结论"
@@ -297,6 +298,7 @@ class MainComponent extends React.Component {
                             ></textarea>
                         </div>
                         <div className="edit-separation"></div>
+                        <div className="edit-mind-description">时间跨度考量</div>
                         <div className="content-input">
                             <textarea className="content-textarea fiex-rest" type="text"
                                 placeholder="不同时间跨度如何看待?"
@@ -305,6 +307,7 @@ class MainComponent extends React.Component {
                             ></textarea>
                         </div>
                         <div className="edit-separation"></div>
+                        <div className="edit-mind-description">多角度思考</div>
                         <div className="content-input">
                             <textarea className="content-textarea fiex-rest" type="text"
                                 placeholder="不同角度如何看待?"
@@ -313,6 +316,7 @@ class MainComponent extends React.Component {
                             ></textarea>
                         </div>
                         <div className="edit-separation"></div>
+                        <div className="edit-mind-description">深度思考</div>
                         <div className="content-input">
                             <textarea className="content-textarea fiex-rest" type="text"
                                 placeholder="深度追溯本质是什么?"
