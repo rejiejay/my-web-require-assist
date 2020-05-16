@@ -39,7 +39,7 @@ export const inputPopUp = ({
 
     if (!!defaultValue) input.value = defaultValue;
 
-    document.getElementById('rejiejay-input-popup-operate-yes').onclick = function () {
+    document.getElementById('rejiejay-input-popup-operate-yes').onclick = function() {
         if (!input.value) {
             return toast.show('值不能为空')
         }
@@ -47,11 +47,11 @@ export const inputPopUp = ({
     }
 
     if (!mustInput) {
-        document.getElementById('rejiejay-input-popup-operate-no').onclick = function () {
+        document.getElementById('rejiejay-input-popup-operate-no').onclick = function() {
             inputPopUpDestroy()
         }
 
-        document.getElementById('ejiejay-input-popup-mask').onclick = function () {
+        document.getElementById('ejiejay-input-popup-mask').onclick = function() {
             inputPopUpDestroy()
         }
     }

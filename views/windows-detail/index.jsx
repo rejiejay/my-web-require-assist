@@ -2,6 +2,7 @@ import fetch from './../../components/async-fetch/fetch.js';
 import toast from './../../components/toast.js'
 import { confirmPopUp } from './../../components/confirm-popup.js';
 import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js';
+import jsonHandle from './../../utils/json-handle.js';
 
 import CONST from './const.js';
 
@@ -18,7 +19,9 @@ class MainComponent extends React.Component {
             nature: '',
 
             parent: null,
-            childNodes: []
+            childNodes: [],
+
+            isShowMultifunction: true
         }
 
         this.newParentid = null
@@ -42,7 +45,7 @@ class MainComponent extends React.Component {
             this.status = CONST.PAGE_STATUS.EDIT
         }
 
-        window.sessionStorage['require-assist-detail-id'] = ''
+        // window.sessionStorage['require-assist-detail-id'] = ''
     }
 
     async initMind() {
@@ -271,6 +274,104 @@ class MainComponent extends React.Component {
         })
     }
 
+    renderConclusion() {
+        const { content, isShowMultifunction } = this.state
+        const self = this
+        const result = jsonHandle.verifyJSONString({ jsonString: content })
+        const isMultifunction = result => {
+            if (!result.isCorrect) return false
+            if (!isShowMultifunction) return false
+            if (!!result.data && !!result.data.content) return true
+            return false
+        }
+
+        if (isMultifunction(result) === false) return [
+            <div className="edit-mind-description multi-function flex-start">
+                <div className="flex-rest">策略结论</div>
+                <div className="multi-function-add"
+                    onClick={() => self.setState({ isShowMultifunction: true })}
+                >展示JSON</div>
+            </div>,
+            <div className="content-input">
+                <textarea className="content-textarea fiex-rest" type="text"
+                    placeholder="请输入结论"
+                    value={content}
+                    style={{ height: 180 }}
+                    onChange={({ target: { value } }) => this.setState({ content: value })}
+                ></textarea>
+            </div>
+        ]
+
+        const contentObj = result.data
+        const delMultiItem = index => {
+            const handle = () => {
+                contentObj.child.splice(index, 1)
+                self.setState({ content: JSON.stringify(contentObj) })
+            }
+
+            confirmPopUp({
+                title: `你确定要删除吗?`,
+                succeedHandle: handle
+            })
+        }
+        const addMultiItem = () => {
+            const inputHandle = multiContent => {
+                const multiItem = CONST.MULTI_FUNCTION_ITEM.DEFAULTS
+                multiItem.content = multiContent
+
+                if (!!contentObj.child && contentObj instanceof Array) {
+                    contentObj.child.push(multiItem)
+                } else {
+                    contentObj.child = [multiItem]
+                }
+
+                self.setState({ content: JSON.stringify(contentObj) })
+
+                inputPopUpDestroy()
+            }
+
+            inputPopUp({
+                title: '请输要新增的结论',
+                inputHandle,
+                mustInput: false
+            })
+        }
+        const renderMultiItem = () => {
+            if (!contentObj || !contentObj.child) return null
+            const list = contentObj.child
+
+            return list.map((item, key) => <div className="multi-function-item flex-start" key={key}>
+                <input type="text" placeholder="请输入策略"
+                    value={item.content}
+                />
+                <div className="multifunction-item-dell"
+                    onClick={() => delMultiItem(key)}
+                >删除</div>
+            </div>)
+        }
+
+        return [
+            <div className="edit-mind-description multi-function flex-start">
+                <div className="flex-rest">策略结论</div>
+                <div className="multi-function-add"
+                    onClick={addMultiItem}
+                >新增</div>
+                <div className="multi-function-add"
+                    onClick={() => self.setState({ isShowMultifunction: false })}
+                >隐藏JSON</div>
+            </div>,
+            renderMultiItem(),
+            <div className="content-input">
+                <textarea className="content-textarea fiex-rest" type="text"
+                    placeholder="请输入结论"
+                    value={contentObj.content}
+                    style={{ height: 180 }}
+                    onChange={({ target: { value } }) => this.setState({ content: value })}
+                ></textarea>
+            </div>
+        ]
+    }
+
     render() {
         const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
         const { status } = this
@@ -288,15 +389,7 @@ class MainComponent extends React.Component {
                             {id && <div className="title-id">{id}</div>}
                         </div>
                         <div className="edit-separation"></div>
-                        <div className="edit-mind-description">策略结论</div>
-                        <div className="content-input">
-                            <textarea className="content-textarea fiex-rest" type="text"
-                                placeholder="请输入结论"
-                                value={content}
-                                style={{ height: 180 }}
-                                onChange={({ target: { value } }) => this.setState({ content: value })}
-                            ></textarea>
-                        </div>
+                        {this.renderConclusion.call(this)}
                         <div className="edit-separation"></div>
                         <div className="edit-mind-description">时间跨度考量</div>
                         <div className="content-input">

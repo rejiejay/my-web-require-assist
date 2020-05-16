@@ -25,6 +25,17 @@ const CONST = {
             view: '角度',
             nature: '深度'
         }
+    },
+
+    MULTI_FUNCTION_ITEM: {
+        DEFAULTS: {
+            content: '',
+            bindUrl: ''
+        },
+        DEMO: {
+            content: '',
+            bindUrl: 'https://rejiejay.cn/require-assist/redirect/index.html?id=1'
+        }
     }
 }
 
