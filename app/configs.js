@@ -10,6 +10,10 @@ const configs = [{
     entry: './views/windows-detail',
     output: './build/windows-detail'
 }, {
+    route: '/redirect/index.html',
+    entry: './views/redirect',
+    output: './build/redirect'
+}, {
     route: '/detail/index.html',
     entry: './views/detail',
     output: './build/detail'
