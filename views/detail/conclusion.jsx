@@ -19,10 +19,6 @@ const isMultifunction = verifyJSOresult => {
     return false
 }
 
-const renderNormalConclusion = verifyJSOresult => {
-    const { content } = self.state
-}
-
 const addMultiItem = data => {
     const inputHandle = multiContent => {
         const multiItem = CONST.MULTI_FUNCTION_ITEM.DEFAULTS
@@ -103,6 +99,11 @@ const onChangeMultiHandle = (data, value) => {
     self.setState({ content: JSON.stringify(data) })
 }
 
+const changeMultiItemHandle = (data, value, index) => {
+    data.child[index].content = value
+    self.setState({ content: JSON.stringify(data) })
+}
+
 const renderConclusion = _this => {
     self = _this
     const { content } = self.state
@@ -156,7 +157,7 @@ const renderConclusion = _this => {
                 <div className="multi-function-item flex-start-center" key={key}>
                     <input type="text" placeholder="请输入策略"
                         value={item.content}
-                        onChange={({ target: { value } }) => changeMultiItemHandle(value, key)}
+                        onChange={({ target: { value } }) => changeMultiItemHandle(data, value, key)}
                     />
                     {!!item.bindUrl && <div className="multifunction-item-jump flex-center"
                         onClick={() => window.location.replace(item.bindUrl)}
