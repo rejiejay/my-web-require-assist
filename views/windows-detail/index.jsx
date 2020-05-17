@@ -46,7 +46,7 @@ class MainComponent extends React.Component {
             this.status = CONST.PAGE_STATUS.EDIT
         }
 
-        // window.sessionStorage['require-assist-detail-id'] = ''
+        window.sessionStorage['require-assist-detail-id'] = ''
     }
 
     async initMind() {
@@ -289,9 +289,12 @@ class MainComponent extends React.Component {
         if (isMultifunction(result) === false) return [
             <div className="edit-mind-description multi-function flex-start">
                 <div className="flex-rest">策略结论</div>
-                <div className="multi-function-add"
+                {result.isCorrect && <div className="multi-function-add"
                     onClick={() => self.setState({ isShowMultifunction: true })}
-                >展示JSON</div>
+                >展示JSON</div>}
+                {!result.isCorrect && <div className="multi-function-add"
+                    onClick={() => self.setState({ content: `{"content": "${content}"}` })}
+                >展示JSON</div>}
             </div>,
             <div className="content-input">
                 <textarea className="content-textarea fiex-rest" type="text"
@@ -345,36 +348,45 @@ class MainComponent extends React.Component {
         const jumpMultiItem = index => window.location.href = contentObj.child[index].bindUrl
 
         const bindUrlMultiItem = index => {
-            const handle = ({ value, label }) => {
-                const inputHandle = url => {
-                    contentObj.child[index].bindUrl = url
-                    self.setState({ content: JSON.stringify(contentObj) })
-
-                    inputPopUpDestroy()
+            const bindUrl = contentObj.child[index].bindUrl
+            const inputHandle = url => {
+                contentObj.child[index].bindUrl = url
+                self.setState({ content: JSON.stringify(contentObj) })
+                inputPopUpDestroy()
+            }
+            let popupConfiguration = {
+                title: '请输要绑定的链接',
+                inputHandle,
+                mustInput: false
+            }
+            const dropDownSelectHandle = ({ value, label }) => {
+                if (value === CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND.value) {
+                    popupConfiguration.defaultValue = `${CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND.url}?id=`
                 }
-
-                let popUp = {
-                    title: `请输要绑定的${label}链接`,
-                    inputHandle,
-                    mustInput: false
+                if (value === CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK.value) {
+                    /** Need todo */
+                    popupConfiguration.defaultValue = `${CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK.url}?id=`
                 }
-
-                if (contentObj.child[index] && contentObj.child[index].bindUrl) {
-                    popUp.defaultValue = contentObj.child[index].bindUrl
-                }
-
-                inputPopUp(popUp)
+                dropDownSelectPopupDestroy()
+                inputPopUp(popupConfiguration)
             }
 
-            dropDownSelectPopup({
-                list: [
-                    CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND,
-                    CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK
-                ],
-                handle,
-                mustInput: false
-            })
-
+            /**
+             * 含义: 存在 url 则直接输入
+             */
+            if (bindUrl) {
+                popupConfiguration.defaultValue = bindUrl
+                inputPopUp(popupConfiguration)
+            } else {
+                dropDownSelectPopup({
+                    list: [
+                        CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND,
+                        CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK
+                    ],
+                    handle: dropDownSelectHandle,
+                    mustInput: false
+                })
+            }
         }
 
         const renderMultiItem = () => {

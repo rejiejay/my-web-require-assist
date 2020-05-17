@@ -41,11 +41,13 @@ const CONST = {
     MULTI_FUNCTION_BIND_URL_TYPE: {
         MIND: {
             value: 1,
-            label: '绑定思维导图'
+            label: '绑定思维导图',
+            url: `${window.location.origin}/require-assist/redirect/index.html`
         },
         TASK: {
             value: 2,
-            label: '绑定任务系统(暂不实现)'
+            label: '绑定任务系统(暂不实现)',
+            url: `${window.location.origin}/task-web/redirect/index.html`
         }
     }
 }
