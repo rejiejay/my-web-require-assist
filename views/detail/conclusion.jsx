@@ -61,8 +61,7 @@ const bindUrlMultiItem = (data, item, index) => {
             popupConfiguration.defaultValue = `${CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND.url}?id=`
         }
         if (value === CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK.value) {
-            /** Need todo */
-            popupConfiguration.defaultValue = `${CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK.url}?id=`
+            popupConfiguration.defaultValue = `${CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK.url}?type=task_list&id=`
         }
         dropDownSelectPopupDestroy()
         inputPopUp(popupConfiguration)
