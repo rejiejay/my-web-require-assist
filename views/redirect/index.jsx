@@ -30,7 +30,7 @@ class MainComponent extends React.Component {
         }
 
         window.sessionStorage.setItem('require-assist-detail-id', id)
-        isMobileDevice ? window.location.href = './../detail/index.html' : window.location.href = './../windows-detail/index.html'
+        window.location.replace(isMobileDevice ? './../detail/index.html' : './../windows-detail/index.html')
     }
 
     render() {

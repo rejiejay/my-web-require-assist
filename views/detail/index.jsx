@@ -5,6 +5,7 @@ import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js
 import { dropDownSelectPopup } from './../../components/drop-down-select-popup.js';
 
 import CONST from './const.js';
+import renderConclusion from './conclusion.jsx';
 
 class MainComponent extends React.Component {
     constructor(props) {
@@ -300,7 +301,7 @@ class MainComponent extends React.Component {
     }
 
     render() {
-        const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
+        const { id, title, timeSpan, view, nature, parent, childNodes } = this.state
         const { status } = this
 
         return [
@@ -317,17 +318,7 @@ class MainComponent extends React.Component {
                 </div>
             </div>,
 
-            <div className="item">
-                <div className="item-description">策略结论</div>
-                <div className="item-container flex-start-center">
-                    <textarea className="content-textarea fiex-rest" type="text"
-                        placeholder="请输入结论"
-                        value={content}
-                        style={{ height: 180 }}
-                        onChange={({ target: { value } }) => this.setState({ content: value })}
-                    ></textarea>
-                </div>
-            </div>,
+            renderConclusion(this),
 
             <div className="item">
                 <div className="item-description">时间跨度考量</div>
