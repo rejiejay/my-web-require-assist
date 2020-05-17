@@ -36,6 +36,17 @@ const CONST = {
             content: '',
             bindUrl: 'https://rejiejay.cn/require-assist/redirect/index.html?id=1'
         }
+    },
+
+    MULTI_FUNCTION_BIND_URL_TYPE: {
+        MIND: {
+            value: 1,
+            label: '绑定思维导图'
+        },
+        TASK: {
+            value: 2,
+            label: '绑定任务系统(暂不实现)'
+        }
     }
 }
 

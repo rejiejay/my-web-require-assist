@@ -4,7 +4,7 @@ export const dropDownSelectPopupDestroy = function inputPopUpDestroy() {
 }
 
 export const dropDownSelectPopup = ({
-    /** { value, lable } */
+    /** { value, label } */
     list,
     handle,
     mustInput

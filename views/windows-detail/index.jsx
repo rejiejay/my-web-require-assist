@@ -2,6 +2,7 @@ import fetch from './../../components/async-fetch/fetch.js';
 import toast from './../../components/toast.js'
 import { confirmPopUp } from './../../components/confirm-popup.js';
 import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js';
+import { dropDownSelectPopup, dropDownSelectPopupDestroy } from './../../components/drop-down-select-popup.js';
 import jsonHandle from './../../utils/json-handle.js';
 
 import CONST from './const.js';
@@ -340,6 +341,42 @@ class MainComponent extends React.Component {
             contentObj.child[index].content = value
             self.setState({ content: JSON.stringify(contentObj) })
         }
+
+        const jumpMultiItem = index => window.location.href = contentObj.child[index].bindUrl
+
+        const bindUrlMultiItem = index => {
+            const handle = ({ value, label }) => {
+                const inputHandle = url => {
+                    contentObj.child[index].bindUrl = url
+                    self.setState({ content: JSON.stringify(contentObj) })
+
+                    inputPopUpDestroy()
+                }
+
+                let popUp = {
+                    title: `请输要绑定的${label}链接`,
+                    inputHandle,
+                    mustInput: false
+                }
+
+                if (contentObj.child[index] && contentObj.child[index].bindUrl) {
+                    popUp.defaultValue = contentObj.child[index].bindUrl
+                }
+
+                inputPopUp(popUp)
+            }
+
+            dropDownSelectPopup({
+                list: [
+                    CONST.MULTI_FUNCTION_BIND_URL_TYPE.MIND,
+                    CONST.MULTI_FUNCTION_BIND_URL_TYPE.TASK
+                ],
+                handle,
+                mustInput: false
+            })
+
+        }
+
         const renderMultiItem = () => {
             if (!contentObj || !contentObj.child) return null
             const list = contentObj.child
@@ -349,6 +386,12 @@ class MainComponent extends React.Component {
                     value={item.content}
                     onChange={({ target: { value } }) => changeMultiItemHandle(value, key)}
                 />
+                {!!item.bindUrl && <div className="multifunction-item-jump flex-center"
+                    onClick={() => jumpMultiItem(key)}
+                >跳转</div>}
+                <div className="multifunction-item-bind flex-center"
+                    onClick={() => bindUrlMultiItem(key)}
+                >bindUrl</div>
                 <div className="multifunction-item-del flex-center"
                     onClick={() => delMultiItem(key)}
                 >删除</div>
@@ -378,7 +421,7 @@ class MainComponent extends React.Component {
     }
 
     render() {
-        const { id, title, content, timeSpan, view, nature, parent, childNodes } = this.state
+        const { id, title, timeSpan, view, nature, parent, childNodes } = this.state
         const { status } = this
 
         return [
