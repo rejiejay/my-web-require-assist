@@ -122,7 +122,7 @@ const renderConclusion = _this => {
                     onClick={() => self.setState({ isShowMultifunction: true })}
                 >展示JSON</div>}
                 {!verifyJSOresult.isCorrect && <div className="multi-function-add"
-                    onClick={() => self.setState({ content: `{"content": "${content}"}` })}
+                    onClick={() => self.setState({ content: JSON.stringify({ content }) })}
                 >展示JSON</div>}
             </div>
 

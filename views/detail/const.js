@@ -47,7 +47,7 @@ const CONST = {
         TASK: {
             value: 2,
             label: '绑定任务系统(暂不实现)',
-            url: `${window.location.origin}/task-web/redirect/index.html`
+            url: `${window.location.origin}/task-web/redirect/index.html?type=task_list&id=`
         }
     }
 }
