@@ -336,15 +336,20 @@ class MainComponent extends React.Component {
                 mustInput: false
             })
         }
+        const changeMultiItemHandle = (value, index) => {
+            contentObj.child[index].content = value
+            self.setState({ content: JSON.stringify(contentObj) })
+        }
         const renderMultiItem = () => {
             if (!contentObj || !contentObj.child) return null
             const list = contentObj.child
 
-            return list.map((item, key) => <div className="multi-function-item flex-start" key={key}>
+            return list.map((item, key) => <div className="multi-function-item flex-start-center" key={key}>
                 <input type="text" placeholder="请输入策略"
                     value={item.content}
+                    onChange={({ target: { value } }) => changeMultiItemHandle(value, key)}
                 />
-                <div className="multifunction-item-dell"
+                <div className="multifunction-item-del flex-center"
                     onClick={() => delMultiItem(key)}
                 >删除</div>
             </div>)
