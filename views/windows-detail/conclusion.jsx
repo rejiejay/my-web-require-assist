@@ -1,26 +1,27 @@
 import jsonHandle from './../../utils/json-handle.js';
 import { inputPopUp, inputPopUpDestroy } from './../../components/input-popup.js';
 import { dropDownSelectPopup, dropDownSelectPopupDestroy } from './../../components/drop-down-select-popup.js';
+import { confirmPopUp } from './../../components/confirm-popup.js';
 
 import CONST from './const.js';
 
 const renderConclusion = self => {
     const { content, isShowMultifunction } = self.state
-    const result = jsonHandle.verifyJSONString({ jsonString: content })
-    const isMultifunction = result => {
-        if (!result.isCorrect) return false
+    const verifyJSOresult = jsonHandle.verifyJSONString({ jsonString: content })
+    const isMultifunction = () => {
+        if (!verifyJSOresult.isCorrect) return false
         if (!isShowMultifunction) return false
-        if (!!result.data && !!result.data.content) return true
+        if (!!verifyJSOresult.data && !!verifyJSOresult.data.content) return true
         return false
     }
 
-    if (isMultifunction(result) === false) return [
+    if (isMultifunction() === false) return [
         <div className="edit-mind-description multi-function flex-start">
             <div className="flex-rest">策略结论</div>
-            {result.isCorrect && <div className="multi-function-add"
+            {verifyJSOresult.isCorrect && <div className="multi-function-add"
                 onClick={() => self.setState({ isShowMultifunction: true })}
             >展示JSON</div>}
-            {!result.isCorrect && <div className="multi-function-add"
+            {!verifyJSOresult.isCorrect && <div className="multi-function-add"
                 onClick={() => self.setState({ content: `{"content": "${content}"}` })}
             >展示JSON</div>}
         </div>,
@@ -34,7 +35,7 @@ const renderConclusion = self => {
         </div>
     ]
 
-    const contentObj = result.data
+    const contentObj = verifyJSOresult.data
     const delMultiItem = index => {
         const handle = () => {
             contentObj.child.splice(index, 1)
@@ -138,6 +139,11 @@ const renderConclusion = self => {
         </div>)
     }
 
+    const onChangeMultiHandle = value => {
+        contentObj.content = value
+        self.setState({ content: JSON.stringify(contentObj) })
+    }
+
     return [
         <div className="edit-mind-description multi-function flex-start">
             <div className="flex-rest">策略结论</div>
@@ -154,7 +160,7 @@ const renderConclusion = self => {
                 placeholder="请输入结论"
                 value={contentObj.content}
                 style={{ height: 180 }}
-                onChange={({ target: { value } }) => this.setState({ content: value })}
+                onChange={({ target: { value } }) => onChangeMultiHandle(value)}
             ></textarea>
         </div>
     ]

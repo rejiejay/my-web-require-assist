@@ -25,6 +25,30 @@ const CONST = {
             view: '角度',
             nature: '深度'
         }
+    },
+
+    MULTI_FUNCTION_ITEM: {
+        DEFAULTS: {
+            content: '',
+            bindUrl: ''
+        },
+        DEMO: {
+            content: '',
+            bindUrl: 'https://rejiejay.cn/require-assist/redirect/index.html?id=1'
+        }
+    },
+
+    MULTI_FUNCTION_BIND_URL_TYPE: {
+        MIND: {
+            value: 1,
+            label: '绑定思维导图',
+            url: `${window.location.origin}/require-assist/redirect/index.html`
+        },
+        TASK: {
+            value: 2,
+            label: '绑定任务系统(暂不实现)',
+            url: `${window.location.origin}/task-web/redirect/index.html`
+        }
     }
 }
 

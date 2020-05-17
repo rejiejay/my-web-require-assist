@@ -20,7 +20,9 @@ class MainComponent extends React.Component {
             nature: '',
 
             parent: null,
-            childNodes: []
+            childNodes: [],
+
+            isShowMultifunction: true
         }
 
         this.newParentid = null

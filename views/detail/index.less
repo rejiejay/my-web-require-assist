@@ -77,12 +77,23 @@ body {
     }
 }
 
-.multi-function-item {
-    .multifunction-item-jump,
-    .multifunction-item-bind,
-    .multifunction-item-del {
-        width      : 75px;
+.multi-function {
+    .multi-function-title .multi-function-add {
+        padding-left: 15px;
         font-weight: bold;
-        cursor     : pointer;
+    }
+
+    .multi-function-item {
+        height       : 32px;
+        background   : #fff;
+        border-bottom: 1px solid #ddd;
+
+        .multifunction-item-jump,
+        .multifunction-item-bind,
+        .multifunction-item-del {
+            width      : 75px;
+            font-weight: bold;
+            cursor     : pointer;
+        }
     }
 }
