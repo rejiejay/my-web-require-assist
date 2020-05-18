@@ -24,7 +24,7 @@ const addMultiItem = data => {
         const multiItem = CONST.MULTI_FUNCTION_ITEM.DEFAULTS
         multiItem.content = multiContent
 
-        if (!!data.child && data instanceof Array) {
+        if (!!data.child && data.child instanceof Array) {
             data.child.push(multiItem)
         } else {
             data.child = [multiItem]
